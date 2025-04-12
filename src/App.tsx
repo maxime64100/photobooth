@@ -22,8 +22,8 @@ function App() {
         setTimeout(() => {
           setDisplayImage(null);
           set(photoRef, null); // Supprimer de la base
-        }, 100000);
-      }
+        }, 60000); // 60 000 ms = 1 minute
+      }        
     });
   
     return () => unsubscribe();
@@ -31,27 +31,27 @@ function App() {
   
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-100 p-8">
+    <div className="min-h-screen bg-black text-white p-8">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-zinc-900 rounded-2xl shadow-xl p-8">
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
-              <Camera className="w-8 h-8 text-indigo-600" />
+            <h1 className="text-3xl font-bold text-white flex items-center gap-2">
+              <Camera className="w-8 h-8 text-indigo-400" />
               Photo Booth
             </h1>
-            <div className="fixed bottom-4 right-4 bg-white p-4 rounded-lg shadow-lg">
+            <div className="fixed bottom-4 right-4 bg-zinc-800 p-4 rounded-lg shadow-lg">
               <QRCode 
                 value={cameraUrl}
                 size={100}
                 level="H"
                 includeMargin={true}
               />
-              <p className="text-sm text-gray-600 mt-2 text-center">
+              <p className="text-sm text-gray-400 mt-2 text-center">
                 Scan to take a photo
               </p>
             </div>
           </div>
-
+  
           <div className="relative">
             {displayImage ? (
               <div className="relative">
@@ -61,16 +61,17 @@ function App() {
                   className="max-w-full max-h-[80vh] mx-auto rounded-lg shadow-lg object-contain"
                 />
                 <div className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
-                  Photo will disappear in 10s
+                  Photo will disappear in 1 minute
                 </div>
+
               </div>
             ) : (
-              <div className="text-center py-32 bg-gray-50 rounded-lg">
-                <Camera className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-                <h2 className="text-2xl font-semibold text-gray-700 mb-2">
+              <div className="text-center py-32 bg-zinc-800 rounded-lg">
+                <Camera className="w-16 h-16 mx-auto mb-4 text-gray-600" />
+                <h2 className="text-2xl font-semibold text-white mb-2">
                   No Photos Yet
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-gray-400">
                   Scan the QR code with your phone to take a photo
                 </p>
               </div>
@@ -80,6 +81,6 @@ function App() {
       </div>
     </div>
   );
-}
+}  
 
 export default App;
