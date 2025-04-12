@@ -1,5 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { Camera, X, RotateCcw } from 'lucide-react';
+import { ref, set } from 'firebase/database';
+import { database } from './firebase';
+
 
 function CameraPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -58,16 +61,14 @@ function CameraPage() {
 
   const savePhoto = () => {
     if (capturedImage) {
-      // Send the image to the main page via BroadcastChannel
-      const channel = new BroadcastChannel('photos');
-      channel.postMessage({ image: capturedImage });
-      
-      // Close the window after a brief delay
+      const photoRef = ref(database, 'latest-photo');
+      set(photoRef, capturedImage);
       setTimeout(() => {
         window.close();
       }, 1500);
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-black">

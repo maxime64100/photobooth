@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import QRCode from 'qrcode.react';
 import { Camera } from 'lucide-react';
+import { ref, onValue, set } from 'firebase/database';
+import { database } from './firebase';
+
 
 function App() {
   const [displayImage, setDisplayImage] = useState<string | null>(null);
@@ -8,18 +11,24 @@ function App() {
   const cameraUrl = new URL('/camera', window.location.href).toString();
 
   React.useEffect(() => {
-    // Listen for photos from the camera page
-    const channel = new BroadcastChannel('photos');
-    channel.onmessage = (event) => {
-      setDisplayImage(event.data.image);
-      // Clear the image after 10 seconds
-      setTimeout(() => {
-        setDisplayImage(null);
-      }, 100000);
-    };
-
-    return () => channel.close();
+    const photoRef = ref(database, 'latest-photo');
+  
+    const unsubscribe = onValue(photoRef, (snapshot) => {
+      const image = snapshot.val();
+      if (image) {
+        setDisplayImage(image);
+  
+        // Effacer après 10 secondes
+        setTimeout(() => {
+          setDisplayImage(null);
+          set(photoRef, null); // Supprimer de la base
+        }, 10000);
+      }
+    });
+  
+    return () => unsubscribe();
   }, []);
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-100 p-8">
