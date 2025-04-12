@@ -15,7 +15,7 @@ function App() {
       // Clear the image after 10 seconds
       setTimeout(() => {
         setDisplayImage(null);
-      }, 10000);
+      }, 100000);
     };
 
     return () => channel.close();
