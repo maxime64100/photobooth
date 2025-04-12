@@ -3,6 +3,7 @@ import QRCode from 'qrcode.react';
 import { Camera } from 'lucide-react';
 import { ref, onValue, set } from 'firebase/database';
 import { database } from './firebase';
+const timeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
 
 function App() {
@@ -17,14 +18,20 @@ function App() {
       const image = snapshot.val();
       if (image) {
         setDisplayImage(image);
-  
-        // Effacer après 10 secondes
-        setTimeout(() => {
+    
+        // Clear any existing timeout
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+    
+        // Set new 1-minute timeout
+        timeoutRef.current = setTimeout(() => {
           setDisplayImage(null);
-          set(photoRef, null); // Supprimer de la base
-        }, 60000); // 60 000 ms = 1 minute
-      }        
+          set(photoRef, null);
+        }, 60000);
+      }
     });
+    
   
     return () => unsubscribe();
   }, []);
