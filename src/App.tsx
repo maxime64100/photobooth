@@ -22,7 +22,7 @@ function App() {
         setTimeout(() => {
           setDisplayImage(null);
           set(photoRef, null); // Supprimer de la base
-        }, 10000);
+        }, 100000);
       }
     });
   
