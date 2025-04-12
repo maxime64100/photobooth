@@ -58,7 +58,7 @@ function App() {
                 <img
                   src={displayImage}
                   alt="Captured"
-                  className="w-full rounded-lg shadow-lg"
+                  className="max-w-full max-h-[80vh] mx-auto rounded-lg shadow-lg object-contain"
                 />
                 <div className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
                   Photo will disappear in 10s
